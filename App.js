@@ -1,19 +1,66 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import HomeScreen from "./HomeScreen.js";
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Home from './Home';
+import Tasks from './Tasks';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-export default function App() {
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
-      <HomeScreen />
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: true,
+        tabBarLabelStyle: {
+          fontWeight: 'bold',
+          fontSize: 13,
+          marginBottom: 6,
+          marginTop: 0,
+          textAlign: 'center',
+        },
+        tabBarIconStyle: {
+          marginTop: 6,
+          marginBottom: -2,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        tabBarStyle: {
+          backgroundColor: 'rgba(248,205,218,0.95)',
+          height: 48 + insets.bottom,
+          paddingBottom: insets.bottom,
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowColor: 'transparent',
+        },
+        tabBarActiveTintColor: '#22223B',
+        tabBarInactiveTintColor: '#7C7C8A',
+        tabBarIcon: ({ color, size, focused }) => {
+          if (route.name === 'Home') {
+            return <Feather name="home" size={size} color={color} />;
+          }
+          if (route.name === 'Tasks') {
+            return <MaterialCommunityIcons name="clipboard-list-outline" size={size} color={color} />;
+          }
+        },
+      })}
+    >
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Tasks" component={Tasks} />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <MyTabs />
+      </NavigationContainer>
+    </SafeAreaProvider>
+  );
+}
