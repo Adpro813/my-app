@@ -6,6 +6,9 @@ import Tasks from './Tasks';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { enableScreens } from 'react-native-screens';
+
+enableScreens();
 
 const Tab = createBottomTabNavigator();
 
