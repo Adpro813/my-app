@@ -1,26 +1,32 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./HomeScreen.js";
-import LoadingScreen from "./screens/LoadingScreen";
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { enableScreens } from 'react-native-screens';
+import MyTabs from './navigation/MyTabs';
+import LoadingScreen from './screens/LoadingScreen';
+import SignupScreen from './screens/SignupScreen';
 
-export default function App() {
-  const Stack = createNativeStackNavigator();
+enableScreens();
+
+const Stack = createNativeStackNavigator();
+
+function RootNavigator() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Loading" component={LoadingScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        {/* <Stack.Screen name="Task" component={TaskScreen} /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Loading" component={LoadingScreen} />
+      <Stack.Screen name="MainApp" component={MyTabs} />
+      <Stack.Screen name = "Signup" component = {SignupScreen}/> 
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
+    </SafeAreaProvider>
+  );
+}
