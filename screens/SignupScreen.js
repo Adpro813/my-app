@@ -1,10 +1,11 @@
 import React from "react";
 import { Image, StyleSheet, Text, View, Button } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import SignupForm from "../components/SignupForm";
 
 export default function SignupScreen({navigation}) {
   return (
-    <LinearGradient // have to wrap the entire component in linear gradient to get background color linear gradient
+    <LinearGradient
       colors={["#f8cdda", "#d1a1d1"]}
       start={{ x: 0.1, y: 0.1 }}
       end={{ x: 1, y: 1 }}
@@ -14,7 +15,7 @@ export default function SignupScreen({navigation}) {
         <View style={styles.headerSection}>
           <Image
             source={require("../images/logo.png")}
-            style={styles.UserIcon}
+            style={styles.userIcon}
           />
           <Text style={styles.title}>Create Account</Text>
           <Text style={styles.subtitle}>
@@ -23,15 +24,10 @@ export default function SignupScreen({navigation}) {
         </View>
 
         {/* 2. Form Section */}
-        <View style={styles.formSection}>
-          {/* First Name & Last Name (side by side) */}
-          {/* Email */}
-          {/* Password */}
-          {/* Confirm Password */}
-        </View>
+        <SignupForm />
 
         {/* 3. Google Signup Button and Terms & Conditions */}
-        <View style={styles.googleButtonSection}>{/* Google Button */}
+        <View style={styles.googleButtonSection}>
           <Button title="Go to home" onPress={() => {
             navigation.navigate("MainApp");
           }} />
@@ -39,12 +35,14 @@ export default function SignupScreen({navigation}) {
     </LinearGradient>
   );
 }
+
 const styles = StyleSheet.create({
   signUpContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
+    paddingTop: 50,
   },
   headerSection: {
     flex: 1,
@@ -62,17 +60,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000",
   },
-  UserIcon: {
+  userIcon: {
     width: 100,
     height: 100,
     marginBottom: 20,
-  },
-  formSection: {
-    flex: 2,
-    backgroundColor: "#F5E0E5",
-    width: "100%",
-    borderRadius: 25, // more rounded corners like in the image
-    padding: 20,
   },
   googleButtonSection: {
     flex: 1,
