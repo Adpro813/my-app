@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Image, Platform, StatusBar as RNStatusBar } from "react-native";
+import { StyleSheet, View, Image, Text, Platform, StatusBar as RNStatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
 
@@ -28,6 +28,7 @@ export default function LoadingScreen({ navigation }) {  //navigation prop passe
           source={require("../images/logo.png")}
           style={styles.logoImage}
         />
+        <Text style={styles.loadingText}>MyPetPal</Text>
       </View>
     </LinearGradient>
   );
@@ -48,5 +49,11 @@ const styles = StyleSheet.create({
   logoImage: {
     width: 200,
     height: 200,
+  },
+  loadingText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#000000",
+    marginTop: 20,
   },
 });
