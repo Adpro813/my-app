@@ -1,26 +1,25 @@
 import React from "react";
-import { View, Text, StyleSheet, Button} from "react-native";
+import { View, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import AppScreenTime from "../components/AppScreenTime";
+import StatusBar from "../components/StatusBar";
 
-export default function HomeScreen({navigation}) {
-  const insets = useSafeAreaInsets();
-
+export default function HomeScreen({ navigation }) {
   return (
     <LinearGradient
       colors={["#f8cdda", "#d1a1d1"]}
-      style={[styles.container, { paddingTop: insets.top }]}
+      style={styles.container}
       start={{ x: 0.1, y: 0.1 }}
       end={{ x: 1, y: 1 }}
     >
-      <View style={styles.headerContainer}>
-        <Button
-          title="Go to home"
-          onPress={() => {
-            navigation.navigate("Signup");
-          }}
-        />
+      {/* 1. Status bar for mood and health */}
+      <View style={styles.textContainer}>
+        <StatusBar label="Mood" progress={50} />
+        <StatusBar label="Health" progress={50} />
       </View>
+      
+      {/* 2. App screen time section area */}
+      <AppScreenTime navigation={navigation} />
     </LinearGradient>
   );
 }
@@ -28,16 +27,14 @@ export default function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
   },
-  headerContainer: {
+  textContainer: {
     width: "100%",
-    paddingHorizontal: 25,
-    alignItems: "flex-start",
-  },
-  headerTitle: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#22223B",
-    marginBottom: 10,
+    paddingHorizontal: 40,
+    paddingBottom: 20,
   },
 });

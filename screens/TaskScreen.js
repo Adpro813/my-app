@@ -1,8 +1,31 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react'; 
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import ProgressBox from '../components/ProgressBox';
+import TaskItem from '../components/TaskItem';
+import AddTaskButton from '../components/AddTaskButton';
 
 export default function TaskScreen() {
+  // Added tasks state management
+  // This array holds all our tasks and can be updated using setTasks
+  // Each task has an id, title, time, and other properties
+  const [tasks, setTasks] = useState([
+    {
+      id: '1',
+      title: "Math homework",
+      time: "3:15 - 5:15",
+      hasVideo: true,
+      isCompleted: false,
+    }
+  ]);
+
+  // Added delete functionality
+  // This function filters out the task with the matching taskId
+  // currentTasks => ... syntax ensures we're using the latest state
+  const handleDeleteTask = (taskId) => {
+    setTasks(currentTasks => currentTasks.filter(task => task.id !== taskId));
+  };
+
   return (
     <LinearGradient
       colors={['#f8cdda', '#d1a1d1']}
@@ -10,54 +33,31 @@ export default function TaskScreen() {
       start={{ x: 0.1, y: 0.1 }}
       end={{ x: 1, y: 1 }}
     >
-      {/* Header Section */}
+      {/* Header date and time */}
       <View style={styles.headerContainer}>
         <Text style={styles.headerTitle}>Today's Tasks</Text>
         <Text style={styles.headerDate}>Monday, June 9</Text>
       </View>
 
-      {/* Progress Section */}
-      <View style={styles.progressContainer}>
-        <Text style={styles.progressTitle}>Progress Today</Text>
-        <View style={styles.progressBox}>
-          <Text style={styles.progressText}>50%</Text>
-        </View>
-      </View>
+      {/* Progress box */}
+      <ProgressBox />
 
-      <ScrollView>
-        {/* Incomplete Task */}
-        <View>
-          <View>
-            <View>{/* Checkbox */}</View>
-            <View>
-              <Text>Math homework</Text>
-              <Text>3:15 - 5:15</Text>
-            </View>
-            <TouchableOpacity>{/* Delete button */}</TouchableOpacity>
-          </View>
-          <TouchableOpacity>
-            <Text>Upload Video</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Completed Task */}
-        <View>
-          <View>
-            <View>{/* Checkbox */}</View>
-            <View>
-              <Text>Physics study session</Text>
-              <Text>5:30 - 7:15</Text>
-            </View>
-            <TouchableOpacity>{/* Delete button */}</TouchableOpacity>
-          </View>
-          <Text>Video uploaded ✓</Text>
-        </View>
+      {/* Task list - Updated to map over tasks array */}
+      <ScrollView style={styles.scrollView}>
+        {tasks.map(task => (
+          <TaskItem 
+            key={task.id} 
+            title={task.title} 
+            time={task.time}
+            hasVideo={task.hasVideo}
+            isCompleted={task.isCompleted}
+            onDelete={() => handleDeleteTask(task.id)}  // Added delete handler
+          />
+        ))}
       </ScrollView>
 
       {/* Add New Task Button */}
-      <TouchableOpacity>
-        <Text>Add new task</Text>
-      </TouchableOpacity>
+      <AddTaskButton />
     </LinearGradient>
   );
 }
@@ -66,48 +66,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
+    paddingTop: 20,
   },
   headerContainer: {
-    flex: 1,
     width: '100%',
     paddingHorizontal: 25,
-    alignItems: 'flex-start',
+    marginBottom: 20,
+    marginTop: 25,
   },
   headerTitle: {
     fontSize: 32,
     fontWeight: 'bold',
     color: '#22223B',
-    marginBottom: 10,
   },
   headerDate: {
     fontSize: 16,
     color: '#22223B',
   },
-  progressContainer: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 20,
-    marginHorizontal: 20,
+  scrollView: {
     width: '100%',
-    paddingHorizontal: 25,
-    alignItems: 'flex-start',
-  },
-  progressTitle: {
-    fontSize: 100,
-    fontWeight: 'bold',
-    color: '#22223B',
-  },
-  progressBox: {
-    marginTop: 10,
-  },
-  progressText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#22223B',
+    flexGrow: 0,
   },
 });
